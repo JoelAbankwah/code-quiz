@@ -62,4 +62,40 @@ function createBody() {
     pageContentEl.appendChild(buttonDivEl)
 }
 
+function startQuiz(event) {
+    var targetEl = event.target;
+    if (targetEl.matches(".start-btn")) {
+        var timeLeft = 76;
+        setInterval(function() {
+            timeLeft -= 1;
+            timeEl.textContent = "Time: " + timeLeft;
+        }, 1000)
+        startQuestions(); 
+    }
+};
+
+function startQuestions(event) {
+    titleEl.remove();
+    paragraphEl.remove();
+    buttonDivEl.remove();
+        var questionText = document.createElement("h2")
+        var questionUlEl = document.createElement("ul")
+        var choiceOne = document.createElement("li")
+        var choiceTwo = document.createElement("li")
+        var choiceThree = document.createElement("li")
+        var choiceFour = document.createElement("li")
+        questionUlEl.appendChild(choiceOne);
+        questionUlEl.appendChild(choiceTwo);
+        questionUlEl.appendChild(choiceThree);
+        questionUlEl.appendChild(choiceFour);
+        questionText.textContent = questions[0].question
+        choiceOne.textContent = questions[0].choice1
+        choiceTwo.textContent = questions[0].choice2
+        choiceThree.textContent = questions[0].choice3
+        choiceFour.textContent = questions[0].choice4
+        pageContentEl.appendChild(questionText);
+        pageContentEl.appendChild(questionUlEl)
+};
+pageContentEl.addEventListener("click", startQuiz);
+
 createHeader();
