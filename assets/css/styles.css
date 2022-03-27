@@ -1,0 +1,54 @@
+* {
+    box-sizing: border-box;
+  }
+
+:root {
+    --primary: rgb(212, 0, 212);
+    --secondary: white;
+    --tertiary: rgb(53, 1, 53);
+}
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px 0 10px;
+}
+
+.view-scores {
+    color: var(--primary);
+    font-size: 95%;
+}
+
+.time {
+    font-weight: bold;
+    font-size: 90%;
+}
+
+.title {
+    text-align: center;
+    margin-top: 6%;
+}
+
+.instructions {
+    text-align: center;
+    font-size: 1.3vw;
+    width: 55%;
+    margin: 0 auto 0 auto;
+}
+
+.start-btn-div {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.start-btn {
+    font-size: 1vw;
+    background-color: var(--tertiary);
+    color: var(--secondary);
+    border: solid 10px var(--tertiary);
+    border-radius: 5px;
+}
