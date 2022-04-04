@@ -1,26 +1,29 @@
 var timeEl = document.getElementById("timer")
-var footerEl = document.getElementById("bottom")
+var footerEl = $("#bottom")
 var timeLeft = 0;
 var i = 0;
 var score = 0;
+var j = 0;
 
-var pageContentEl = document.querySelector("#page-content")
-var startButtonEl = document.querySelector(".start-btn")
-var titleEl = document.createElement("h1");
-var paragraphEl = document.createElement("p");
-var buttonDivEl = document.createElement("div");
-var questionText = document.createElement("h2")
-questionText.className = "question-titles"
-var questionOlEl = document.createElement("ol")
-var choiceOne = document.createElement("li")
-var choiceTwo = document.createElement("li")
-var choiceThree = document.createElement("li")
-var choiceFour = document.createElement("li")
-choiceOne.className = "choice1";
-choiceTwo.className = "choice2";
-choiceThree.className = "choice3";
-choiceFour.className = "choice4";
-questionOlEl.className = "choices"
+var pageContentEl = $("#page-content")
+var startButtonEl = $(".start-btn")
+var titleEl = $("<h1></h2>");
+var paragraphEl = $("<p></p>");
+var buttonDivEl = $("<div></div>");
+var questionText = $("<h2></h2>").addClass("questions-titles")
+var questionOlEl = $("<ol></ol>").addClass("choices")
+var choiceOne = $("<li></li>")
+.addClass("choice")
+.attr( 'id', 'choice1')
+var choiceTwo = $("<li></li>")
+.addClass("choice")
+.attr( 'id', 'choice2')
+var choiceThree = $("<li></li>")
+.addClass("choice")
+.attr( 'id', 'choice3')
+var choiceFour = $("<li></li>")
+.addClass("choice")
+.attr( 'id', 'choice4')
 
 var questions = [
     {
@@ -29,15 +32,15 @@ var questions = [
     b: "booleans",
     c: "alerts",
     d: "numbers",
-    answer: choiceThree.className
+    answer: $(choiceThree).attr('id')
     },
     {
     question: "The condition in an if/ else statement is enclosed with _________.",
     a: "quotes",
-    b: "curly brackets",
-    c: "parenthesis",
+    b: "parenthesis",
+    c: "curly brackets",
     d: "square brackets",
-    answer: choiceThree.className
+    answer: $(choiceTwo).attr('id')
     },
     {
     question: "Arrays in Javascript can be used to store __________.",
@@ -45,15 +48,15 @@ var questions = [
     b: "other arrays",
     c: "booleans",
     d: "all of the above",
-    answer: choiceFour.className
+    answer: $(choiceFour).attr('id')
     },
     {
     question: "String values must be enclosed with ______ when being assigned to variables",
-    a: "commas",
+    a: "quotes",
     b: "curly brackets",
-    c: "quotes",
+    c: "commas",
     d: "parenthesis",
-    answer: choiceThree.className
+    answer: $(choiceOne).attr('id')
     },
     {
     question: "A very useful tool used during development and debugging for printing content to the debugger is:",
@@ -61,7 +64,7 @@ var questions = [
     b: "terminal/bash",
     c: "for loops",
     d: "console.log",
-    answer: choiceFour.className
+    answer: $(choiceFour).attr('id')
     }
 ]
 
@@ -71,7 +74,7 @@ function startTimer() {
     var countDown = setInterval(function() {
         timeLeft -= 1;
         timeEl.textContent = 'Time: ' + timeLeft;
-        if (timeLeft <= 0) {
+        if (timeLeft <= 0 || i >= questions.length) {
             clearInterval(countDown);
             endGame();
         } 
@@ -82,37 +85,32 @@ function startTimer() {
 function loadQuestions(){
     removeAllChildNodes(pageContentEl);
     if (i < questions.length){
-        questionsDivEl = document.createElement("div");
-        questionsDivEl.className = "questions-container";
-        questionOlEl.appendChild(choiceOne);
-        questionOlEl.appendChild(choiceTwo);
-        questionOlEl.appendChild(choiceThree);
-        questionOlEl.appendChild(choiceFour);
-        questionText.textContent = questions[i].question
-        choiceOne.textContent = questions[i].a
-        choiceTwo.textContent = questions[i].b
-        choiceThree.textContent = questions[i].c
-        choiceFour.textContent = questions[i].d
-        questionsDivEl.appendChild(questionText);
-        questionsDivEl.appendChild(questionOlEl);
-        pageContentEl.appendChild(questionsDivEl);
+        questionsDivEl = $("<div></div>").addClass("questions-container");
+        $(questionOlEl).append(choiceOne, choiceTwo, choiceThree, choiceFour);
+        $(questionText).text(questions[i].question);
+        $(choiceOne).text('1. ' + questions[i].a)
+        $(choiceTwo).text("2. " + questions[i].b)
+        $(choiceThree).text("3. " + questions[i].c)
+        $(choiceFour).text("4. " + questions[i].d)
+        $(questionsDivEl).append(questionText);
+        $(questionsDivEl).append(questionOlEl);
+        $(pageContentEl).append(questionsDivEl);
     }
-    else if (i >= questions.length) {
-        endGame();
-    }
+    choiceOne.on("click", checkAnswer);
+    choiceTwo.on("click", checkAnswer);  
+    choiceThree.on("click", checkAnswer);  
+    choiceFour.on("click", checkAnswer);   
 };
 
 function checkAnswer() {
-    if (this.className === questions[i].answer){
+    if (this.id === questions[i].answer){
         timeLeft += 10;
         timeEl.textContent = "Time: " + timeLeft;
         score += 10;
-        removeAllChildNodes(footerEl)
         footerRight();
     }
-    else if (this.className != questions[i].answer) {
+    else if (this.id != questions[i].answer) {
         timeLeft -= 10;
-        removeAllChildNodes(footerEl)
         footerWrong();
     }
     i++
@@ -121,30 +119,85 @@ function checkAnswer() {
 }  
 
 var footerRight = function(){
-    var rightEl = document.createElement("h2")
-    rightEl.className = "answer"
-    rightEl.textContent = "Right!"
-    footerEl.appendChild(rightEl) 
+    var rightEl = $("<h2></h2>").addClass("answer").text("Right!")
+    footerEl.append(rightEl);
+    setTimeout(clearFooter, 3000);
 }
 
 var footerWrong = function(){
-    var wrongEl = document.createElement("h2")
-    wrongEl.className = "answer"
-    wrongEl.textContent = "Wrong!"
-    footerEl.appendChild(wrongEl) 
-}
+    var wrongEl = $("<h2></h2>").addClass("answer").text("Wrong!")
+    footerEl.append(wrongEl);
+    setTimeout(clearFooter, 2000); 
+};
+
+function clearFooter(){
+    removeAllChildNodes(footerEl)
+};
 
 function endGame(){
-    console.log("hi")
+    var h2El = $("<h2></h2>").addClass("endgame-h2").text("All done!");
+    var pEl = $("<p></p>").addClass("endgame-p").text("Your final score is " + score);
+    var inputFormEl = $("<div></div>").addClass("input-form")
+    var initialsEl = $("<p></p>").addClass("endgame-p").text("Enter initials: ");
+
+    var inputEl = $("<input></input>")
+    .addClass("input")
+    .attr("type", "text")
+    .attr("value", "");
+
+    var subBtnEl = $("<button></button>").addClass('submit-btn').text("Submit");
+    $(subBtnEl).on("click", submitScore)
+
+    inputFormEl.append(initialsEl);
+    inputFormEl.append(inputEl);
+    inputFormEl.append(subBtnEl);
+    pageContentEl.append(h2El)
+    pageContentEl.append(pEl)
+    pageContentEl.append(inputFormEl)
+
+ 
+    function submitScore(){
+        inputEl = inputEl.val()
+        if (inputEl === "" || inputEl.length > 2 || inputEl.length < 1){
+            alert("Enter valid initials")
+            removeAllChildNodes(pageContentEl)
+            endGame();
+        }
+        else { 
+            loadHighScores(inputEl, score);
+        }
+    }
+};
+
+function saveHighScores(INP, SCR){
+    var highscores = JSON.parse(localStorage.getItem('highscores'));
+    if(!highscores){
+        highscores = {
+        inputArr:[],
+        scoreArr:[]
+        }
+        var IArr = highscores.inputArr
+        var SArr = highscores.scoreArr
+        IArr.push(INP)
+        SArr.push(SCR)
+    }
+    else {
+        highscores.inputArr.push(INP)
+        highscores.scoreArr.push(SCR)
+    } 
+    localStorage.setItem('highscores', JSON.stringify(highscores))
+    loadHighScores();
 }
 
+function loadHighScores(){
+    var highscores = JSON.parse(localStorage.getItem('highscores'));
+    highscores.scoreArr.sort((a,b)=>b-a)
+    console.log(highscores.scoreArr)
+};
+
 function removeAllChildNodes(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
-}
-startButtonEl.addEventListener("click", startTimer);
-choiceOne.addEventListener("click", checkAnswer);
-choiceTwo.addEventListener("click", checkAnswer);  
-choiceThree.addEventListener("click", checkAnswer);  
-choiceFour.addEventListener("click", checkAnswer);   
+        (parent).empty();
+};
+
+startButtonEl.on("click", startTimer);
+

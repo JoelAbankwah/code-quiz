@@ -54,22 +54,22 @@ header {
 }
 
 .questions-container {
- width: 70%;
-margin: auto; 
+    width: 70%;
+    margin: auto; 
 }
 
-.question-titles {
+.questions-titles {
     margin-top: 80px;
     font-size: 2.5vw;
     text-align: left;
 }
 
 .choices {
-    list-style:inside;
+    list-style:none;
     text-align: left;
 }
 
-.choice1, .choice2, .choice3, .choice4 {
+.choice {
     text-align: left;
     font-size: 1.5vw;
     color: var(--secondary);
@@ -87,4 +87,24 @@ margin: auto;
     margin: 40px auto 0 auto;
     width:65%;
     font-size: 40px;
+}
+
+.input-form {
+    display: flex;
+}
+
+.input {
+    margin-top: 15px;
+    height: 25px;
+}
+
+.submit-btn {
+    font-size: 1vw;
+    background-color: var(--tertiary);
+    color: var(--secondary);
+    border: solid 10px var(--tertiary);
+    border-radius: 5px;
+    height: 25px;
+    line-height: 5px;
+    margin: 15px 0 0 15px;
 }
