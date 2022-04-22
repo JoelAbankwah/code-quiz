@@ -3,8 +3,9 @@ var footerEl = $("#bottom")
 var timeLeft = 0;
 var i = 0;
 var score = 0;
-var j = 0;
 
+var viewHS = document.querySelector("#view-hs")
+var header = $('#header')
 var pageContentEl = $("#page-content")
 var startButtonEl = $(".start-btn")
 var titleEl = $("<h1></h2>");
@@ -135,6 +136,7 @@ function clearFooter(){
 };
 
 function endGame(){
+    removeAllChildNodes(header)
     var h2El = $("<h2></h2>").addClass("endgame-h2").text("All done!");
     var pEl = $("<p></p>").addClass("endgame-p").text("Your final score is " + score);
     var inputFormEl = $("<div></div>").addClass("input-form")
@@ -157,14 +159,15 @@ function endGame(){
 
  
     function submitScore(){
-        inputEl = inputEl.val()
-        if (inputEl === "" || inputEl.length > 2 || inputEl.length < 1){
+        var input = inputEl.val()
+        if (input === "" || input.length > 2 || input.length < 1){
             alert("Enter valid initials")
             removeAllChildNodes(pageContentEl)
             endGame();
         }
-        else { 
-            loadHighScores(inputEl, score);
+        else {
+            input = input.toUpperCase() 
+            saveHighScores(input, score);
         }
     }
 };
@@ -173,26 +176,70 @@ function saveHighScores(INP, SCR){
     var highscores = JSON.parse(localStorage.getItem('highscores'));
     if(!highscores){
         highscores = {
-        inputArr:[],
-        scoreArr:[]
+        dataArr:[]
         }
-        var IArr = highscores.inputArr
-        var SArr = highscores.scoreArr
-        IArr.push(INP)
-        SArr.push(SCR)
+        var data = [INP, SCR]
+        var dataArr = highscores.dataArr
+        dataArr.push(data)
     }
     else {
-        highscores.inputArr.push(INP)
-        highscores.scoreArr.push(SCR)
+        var data = [INP, SCR]
+        highscores.dataArr.push(data)
+        highscores.dataArr.sort((a,b)=>b[1]-a[1])
     } 
     localStorage.setItem('highscores', JSON.stringify(highscores))
     loadHighScores();
 }
 
 function loadHighScores(){
+    removeAllChildNodes(pageContentEl)
     var highscores = JSON.parse(localStorage.getItem('highscores'));
-    highscores.scoreArr.sort((a,b)=>b-a)
-    console.log(highscores.scoreArr)
+    var hsDiv = document.createElement('div')
+    var hsHeader = document.createElement('h2')
+    hsHeader.setAttribute('class', 'hs-header')
+    hsHeader.textContent = 'High Scores'
+    hsDiv.appendChild(hsHeader)
+    var hsUl = document.createElement('ul')
+    hsUl.setAttribute('class', 'hs-ul')
+
+    for (var i=0; i < highscores.dataArr.length && i < 10; i++) {
+        var scores = document.createElement('li');
+        scores.setAttribute('class', 'hs-li')
+        var initials = highscores.dataArr[i][0];
+        var hscore = highscores.dataArr[i][1];
+        scores.innerHTML = initials + ' - ' + hscore;
+        (hsUl.appendChild(scores));
+    }
+    hsDiv.appendChild(hsUl)
+    var btnDiv = document.createElement('div')
+    btnDiv.setAttribute('class', 'btn-div')
+
+    var goBackBtn = document.createElement('button')
+    goBackBtn.textContent = 'Go Back'
+    goBackBtn.setAttribute('class', 'start-btn go-back-btn')
+
+    btnDiv.appendChild(goBackBtn)
+
+    var clearScoresBtn = document.createElement('button')
+    clearScoresBtn.textContent = 'Clear Highscores'
+    clearScoresBtn.setAttribute('class', 'start-btn clear-scores-btn')
+
+    btnDiv.appendChild(clearScoresBtn)
+    hsDiv.appendChild(btnDiv)
+
+    pageContentEl.append(hsDiv)
+    
+    goBackBtn.addEventListener('click', function(){
+        document.location.reload()
+    })
+
+    clearScoresBtn.addEventListener('click', function(){
+        highscores = {
+            dataArr:[]
+        }
+        localStorage.setItem('highscores', JSON.stringify(highscores))
+        document.location.reload()
+    })
 };
 
 function removeAllChildNodes(parent) {
@@ -200,4 +247,13 @@ function removeAllChildNodes(parent) {
 };
 
 startButtonEl.on("click", startTimer);
-
+viewHS.addEventListener('click', function(){
+   var highscores = JSON.parse(localStorage.getItem('highscores'))
+   if (!highscores) {
+       highscores = {
+           dataArr: []
+       }
+   }
+   localStorage.setItem('highscores', JSON.stringify(highscores))
+   loadHighScores();
+})

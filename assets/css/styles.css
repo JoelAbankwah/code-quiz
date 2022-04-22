@@ -94,7 +94,8 @@ header {
 }
 
 .input {
-    margin-top: 15px;
+    margin-top: 20px;
+    margin-left: 10px;
     height: 25px;
 }
 
@@ -106,5 +107,48 @@ header {
     border-radius: 5px;
     height: 25px;
     line-height: 5px;
-    margin: 15px 0 0 15px;
+    margin: 20px 0 0 15px;
+}
+
+.endgame-h2, .hs-header {
+    text-align: center;
+    font-size: 3rem;
+    margin-top: 10rem;
+}
+
+.endgame-p {
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.input-form {
+    justify-content: center;
+}
+
+.hs-ul {
+    margin-left: auto;
+    margin-right: auto;
+    list-style: none;
+    text-align: left;
+    font-size: 1.5rem;
+    width: 40rem;
+}
+
+.hs-li {
+    margin-bottom: 10px;
+    background-color: lightgray;
+    padding-left: 30px;
+}
+
+.btn-div {
+    margin: auto;
+    width: 20%;
+}
+
+.go-back-btn {
+    margin-left: 20px;
+}
+
+.clear-scores-btn {
+    margin-left: 40px;
 }
