@@ -8,9 +8,9 @@ As a begginer programmer, I'd like to be able to take a coding quiz to help my p
 dynamically generated five multiple choice questions with a timer. If you got the question right, it would add to you score and give you bonus time, however if you got it wrong, time would be deducted and your score would stay the same.
 
 ## Built With
-*HTML
-*CSS
-*JS
+* HTML
+* CSS
+* JS
 
 ## Website
 https://joelabankwah.github.io/code-quiz/
