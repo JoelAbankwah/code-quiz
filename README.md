@@ -19,4 +19,4 @@ https://joelabankwah.github.io/code-quiz/
 Made with ❤️ by Joel Abankwah!
 
 
-![Generic badge](https://img.shields.io/badge/<Liscense>-<lgpl-3.0>-<blue>.svg)
+![Generic badge](https://img.shields.io/badge/<License>-<lgpl-3.0>-<COLOR>.svg)
